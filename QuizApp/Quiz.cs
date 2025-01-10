@@ -12,8 +12,6 @@ namespace QuizApp
 
         private int userAnswer;
 
-        private bool isValidAnswer;
-
         public Quiz(Question[] questions)
         {
             this.questions = questions;
@@ -27,21 +25,36 @@ namespace QuizApp
 
                 DisplayAnswers(questionIndex);
 
-                isValidAnswer = int.TryParse(Console.ReadLine(), out userAnswer);
+                bool isValidAnswer = GetUserAnswer(questionIndex);
 
-                if (!isValidAnswer || (userAnswer - 1) >= (questions[questionIndex].Answers.Length)) {
-                    Console.WriteLine();
-                    Console.WriteLine($"\u001b[1;31mInvalid selection. Your selection must be between 1 and {questions[questionIndex].Answers.Length}.\u001b[0m");
-                    Console.WriteLine($"\u001b[1;31mPlease try again.\u001b[0m");
-                    Console.WriteLine();
+                if (!isValidAnswer) {
                     questionIndex -= 1;
                     continue;
                 }
-
+                
                 ValidateAnswer(questionIndex);
             }
 
             Console.WriteLine("Quiz finished! Thank you for participating.");
+        }
+
+        private bool GetUserAnswer(int questionIndex)
+        {
+            int answer = 0;
+
+            Console.Write("Your answer (number): ");
+            bool isValidAnswer = int.TryParse(Console.ReadLine(), out userAnswer);
+
+            if (!isValidAnswer || answer < 1 || (userAnswer - 1) >= (questions[questionIndex].Answers.Length))
+            {
+                Console.WriteLine();
+                Console.WriteLine($"\u001b[1;31mInvalid selection. Your selection must be between 1 and {questions[questionIndex].Answers.Length}.\u001b[0m");
+                Console.WriteLine($"\u001b[1;31mPlease try again.\u001b[0m");
+                Console.WriteLine();
+                return false;
+            }
+
+            return true;    
         }
 
         public void ValidateAnswer(int questionIndex)
