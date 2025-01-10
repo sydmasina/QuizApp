@@ -63,6 +63,11 @@ namespace QuizApp
 
         public void DisplayQuestion(int questionIndex)
         {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                                 Question                                ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════╝");
+            Console.ResetColor();
             Console.WriteLine(questions[questionIndex].QuestionText);
         }
 
